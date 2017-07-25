@@ -20,9 +20,27 @@ const show = function (req, res) {
   });
 }
 
+function addTwoDays(now){
+  var twoDaysMilliseconds = now + 172800000;
+  return new Date(twoDaysMilliseconds);
+}
+
+
 // POST /api/incidents
 const create = function (req, res) {
-  res.send("This will create a new incident");
+  db.Incident.create(
+    {
+       address: req.body.address,
+       description: req.body.description,
+       date: new Date(),
+       expiration: addTwoDays(Date.now())
+
+    }, function(err, newIncident){
+         if (err) {
+           return res.status(500).json({error: err.message});
+         }
+         res.json(newIncident);
+    });
 }
 
 // PUT /api/incidents/:incident_id
