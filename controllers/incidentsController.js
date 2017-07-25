@@ -12,8 +12,12 @@ const index = function (req, res) {
 
 // GET /api/incidents/:incident_id
 const show = function (req, res) {
-
-  res.send("this will show a single incident.");
+  const id = req.params.incident_id;
+  db.Incident.findById(id, function (err, incident) {
+    if (err) return res.status(500).json(err);
+    if (incident === null) return res.status(404).json({message: 'incident not found'});
+    res.json(incident);
+  });
 }
 
 // POST /api/incidents
