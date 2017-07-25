@@ -25,22 +25,19 @@ function addTwoDays(now){
   return new Date(twoDaysMilliseconds);
 }
 
-
 // POST /api/incidents
 const create = function (req, res) {
-  db.Incident.create(
-    {
-       address: req.body.address,
-       description: req.body.description,
-       date: new Date(),
-       expiration: addTwoDays(Date.now())
-
-    }, function(err, newIncident){
-         if (err) {
-           return res.status(500).json({error: err.message});
-         }
-         res.json(newIncident);
-    });
+  db.Incident.create({
+    address: req.body.address,
+    description: req.body.description,
+    date: new Date(),
+    expiration: addTwoDays(Date.now())
+  }, function(err, newIncident){
+    if (err) {
+      return res.status(500).json({error: err.message});
+    }
+    res.json(newIncident);
+  });
 }
 
 // PUT /api/incidents/:incident_id
@@ -60,7 +57,10 @@ const update = function (req, res) {
 
 // DELETE /api/incidents/:incident_id
 const destroy = function (req, res) {
-  res.send("This will destroy a single incident.");
+  db.Incident.findByIdAndRemove(req.params.incident_id, function (err, incident) {
+    if (err) return res.status(500).json(err);
+    res.status(200).send();
+  });
 }
 
 module.exports = {
