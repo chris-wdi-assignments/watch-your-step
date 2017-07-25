@@ -45,7 +45,17 @@ const create = function (req, res) {
 
 // PUT /api/incidents/:incident_id
 const update = function (req, res) {
-  res.send("This will update a single incident.");
+  db.Incident.findById(req.params.incident_id, function(err, foundIncident){
+    if(err) return res.send(err);
+    foundIncident.address = req.body.address;
+    foundIncident.description = req.body.description;
+    foundIncident.date = new Date();
+    foundIncident.expiration = addTwoDays(Date.now());
+    foundIncident.save(function(err, savedIncident){
+      if(err) return res.send(err);
+      res.json(savedIncident)
+    });
+  });
 }
 
 // DELETE /api/incidents/:incident_id
