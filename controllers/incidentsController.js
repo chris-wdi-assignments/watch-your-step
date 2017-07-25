@@ -1,5 +1,12 @@
+const db = require("../models");
+
 const index = function (req, res) {
-  res.send("This will show all incidents.");
+  db.Incident.find({}, function(err, incidents){
+    if (err){
+      res.status(500).json({error: err.message});
+    }
+    res.json({incidents: incidents});
+  });
 }
 
 const show = function (req, res) {
