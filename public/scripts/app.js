@@ -1,5 +1,16 @@
 $(document).ready(function () {
-  $('#create-incident').modal('show');
+
+  $('#new-button').on('click', function (e) {
+    $('#create-incident').modal('show');
+  })
+
+  $('#show-data').on('click', '.incident-show-btn', function() {
+    console.log('incident-show-btn is working!!');
+    $('#update-incident').modal('show');
+
+  })
+
+
 
   $('#new-incident').on('submit', function(e) {
     e.preventDefault();
@@ -35,11 +46,14 @@ $(document).ready(function () {
 
   function renderIncident(incident) {
     var indexIncident = (`
-      <ul>
-        <li>Address: ${incident.address}</li>
-        <li>Category: ${incident.category}</li>
-        <li>Date: ${incident.date}</li>
-        <li>Expires: ${incident.expiration}</li>
+      <ul class="list-group">
+        <li class="list-group-item">Address: ${incident.address}</li>
+        <li class="list-group-item">Category: ${incident.category}</li>
+        <li class="list-group-item">Date: ${incident.date}</li>
+        <li class="list-group-item">Expires: ${incident.expiration}</li>
+        <li class="list-group-item">
+          <button class="btn btn-default incident-show-btn" data-incident-id="${incident._id}">View</button>
+        </li>
       </ul>
     `)
     $("#show-data").append(indexIncident); //put at end
