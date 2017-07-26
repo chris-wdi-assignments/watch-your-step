@@ -27,9 +27,10 @@ function addTwoDays(now){
 
 // POST /api/incidents
 const create = function (req, res) {
+  console.log('hit create route');
   db.Incident.create({
     address: req.body.address,
-    description: req.body.description,
+    category: req.body.category,
     date: new Date(),
     expiration: addTwoDays(Date.now())
   }, function(err, newIncident){
@@ -45,7 +46,7 @@ const update = function (req, res) {
   db.Incident.findById(req.params.incident_id, function(err, foundIncident){
     if(err) return res.send(err);
     foundIncident.address = req.body.address;
-    foundIncident.description = req.body.description;
+    foundIncident.category = req.body.category;
     foundIncident.date = new Date();
     foundIncident.expiration = addTwoDays(Date.now());
     foundIncident.save(function(err, savedIncident){
