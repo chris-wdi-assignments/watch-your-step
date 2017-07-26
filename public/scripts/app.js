@@ -4,8 +4,18 @@ $(document).ready(function () {
     $('#create-incident').modal('show');
   })
 
-  $('#show-data').on('click', '.incident-show-btn', function() {
-    console.log('incident-show-btn is working!!');
+  $('#show-data').on('click', '.incident-show-btn', function(e) {
+    const id = $(e.target).attr('data-incident-id');
+    $.ajax({
+      method: 'GET',
+      url: '/api/incidents/' + id,
+      success: function (incident) {
+        $('.show-address').text(incident.address);
+        $('.show-category').text(incident.category);
+        $('.show-date').text(incident.date);
+      },
+      error: function (err) {throw new Error(err);}
+    })
     $('#update-incident').modal('show');
   })
 
