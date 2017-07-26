@@ -89,19 +89,22 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
             <h4>View Incident</h4>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="update-form">
               <div class="form-group">
                 <label>Address</label>
-                <span>Sample address text</span>
-                <input type="text" class="form-control hidden">
+                <span class="show-elements show-address">Sample address text</span>
+                <input type="text" class="edit-elements form-control" name="address">
               </div>
               <div class="form-group">
                 <label>Incident</label>
-                <span>Sample what the incident was</span>
-                <select class="hidden">
+                <span class="show-category show-elements">Sample what the incident was</span>
+                <select class="edit-elements" name="category">
                   <option value="construction">Construction</option>
                   <option value="crime scene">Crime Scene</option>
                   <option value="droppings">Droppings</option>
@@ -111,22 +114,16 @@
               </div>
               <div class="form-group">
                 <label>Date</label>
-                <span>7/26/17</span>
+                <span class="show-date">7/26/17</span>
               </div>
-              <div class="form-group">
-                <label>Expiration date</label>
-                <span>7/28/17</span>
-              </div>
-              <button type="button" class="btn btn-default">Edit</button>
-              <button type="button" class="btn btn-default">Delete</button>
-              <button type="submit" class="btn btn-default hidden">Submit</button>
+              <button type="button" class="show-elements btn btn-default" id="incident-edit-btn">Edit</button>
+              <button type="button" class="show-elements btn btn-default" id="incident-delete-btn">Delete</button>
+              <button type="submit" class="edit-elements btn btn-default">Submit</button>
             </form>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
 </div>
 <!-- closes container -->

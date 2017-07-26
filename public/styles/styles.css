@@ -1,3 +1,7 @@
 .panel {
   border-color: red;
 }
+
+.edit-elements {
+  display: none;
+}

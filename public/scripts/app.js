@@ -2,10 +2,58 @@ $(document).ready(function () {
 
   $('#new-button').on('click', function (e) {
     $('#create-incident').modal('show');
+  });
+
+  $('#incident-edit-btn').on('click', function (e) {
+    $('.show-elements').hide();
+    $('.edit-elements').show();
+  });
+
+  $('#update-form').on('submit', function (e) {
+    e.preventDefault();
+    const id = $('#update-incident').attr('data-incident-id');
+    $.ajax({
+      method: "put",
+      url: `/api/incidents/${id}`,
+      data: $(this).serialize(),
+      success: function (incident) {
+        $(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
+        renderIncident(incident);
+        $('#update-incident').modal('hide');
+      }
+    })
   })
 
-  $('#show-data').on('click', '.incident-show-btn', function() {
-    console.log('incident-show-btn is working!!');
+  $('#incident-delete-btn').on('click', function (e) {
+    const id = $('#update-incident').attr('data-incident-id');
+
+    $.ajax({
+      method: "DELETE",
+      url: "/api/incidents/" + id,
+      success: function () {
+        $('#update-incident').modal('hide');
+        $(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
+      },
+      error: function (err) {
+        console.log('There was an error!', 'err');
+      }
+    })
+
+  })
+
+  $('#show-data').on('click', '.incident-show-btn', function(e) {
+    const id = $(e.target).attr('data-incident-id');
+    $('#update-incident').attr('data-incident-id', id);
+    $.ajax({
+      method: 'GET',
+      url: '/api/incidents/' + id,
+      success: function (incident) {
+        $('.show-address').text(incident.address);
+        $('.show-category').text(incident.category);
+        $('.show-date').text(incident.date);
+      },
+      error: function (err) {throw new Error(err);}
+    })
     $('#update-incident').modal('show');
   })
 
@@ -47,7 +95,6 @@ $(document).ready(function () {
         <li class="list-group-item">Address: ${incident.address}</li>
         <li class="list-group-item">Category: ${incident.category}</li>
         <li class="list-group-item">Date: ${incident.date}</li>
-        <li class="list-group-item">Expires: ${incident.expiration}</li>
         <li class="list-group-item">
           <button class="btn btn-default incident-show-btn" data-incident-id="${incident._id}">View</button>
         </li>
