@@ -1,6 +1,3 @@
-
-
-
 $(document).ready(function () {
   $('#create-incident').modal('show');
 
@@ -19,9 +16,33 @@ $(document).ready(function () {
 
     function onCreate(newIncident) {
       console.log("Successfully posted/created");
-      //do something
-      // modal hide
-      //list.append TODO
-    }
-  })
+      $('#create-incident').modal('hide');
+    } // closes onCreate function
+  }) // closes onsubmit handler
+
+  $.ajax({
+    method: 'GET',
+    url: '/api/incidents',
+    success: renderMultipleIncidents
+  });
+
+  function renderMultipleIncidents(incidents) {
+    var makeArray = incidents.incidents;
+    makeArray.forEach(function(incident) {
+      renderIncident(incident);
+    });
+  }
+
+  function renderIncident(incident) {
+    var indexIncident = (`
+      <ul>
+        <li>Address: ${incident.address}</li>
+        <li>Category: ${incident.category}</li>
+        <li>Date: ${incident.date}</li>
+        <li>Expires: ${incident.expiration}</li>
+      </ul>
+    `)
+    $("#show-data").append(indexIncident); //put at end
+  }
+
 }); //closes document
