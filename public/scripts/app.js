@@ -7,10 +7,7 @@ $(document).ready(function () {
   $('#show-data').on('click', '.incident-show-btn', function() {
     console.log('incident-show-btn is working!!');
     $('#update-incident').modal('show');
-
   })
-
-
 
   $('#new-incident').on('submit', function(e) {
     e.preventDefault();
@@ -58,5 +55,4 @@ $(document).ready(function () {
     `)
     $("#show-data").append(indexIncident); //put at end
   }
-
 }); //closes document
