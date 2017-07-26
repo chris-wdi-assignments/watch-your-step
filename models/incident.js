@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const IncidentSchema = new Schema({
   address: String,
-  description: String,
+  category: String,
   date: Date,
   //neighborhood: Neighborhood,
   expiration: Date
