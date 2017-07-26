@@ -55,7 +55,7 @@
 
     <button class="btn btn-default">Button</button>
 
-    <div>
+    <div id="create-incident">
       <h2>Report New Incident</h2>
       <form>
         <div class="form-group">
@@ -73,6 +73,31 @@
           </select>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+
+    <div id="update-incident">
+      <h2>View Incident</h2>
+      <form>
+        <div class="form-group">
+          <label>Address</label>
+          <span>Sample address text</span>
+          <input type="text" class="form-control hidden">
+        </div>
+        <div class="form-group">
+          <label>Incident</label>
+          <span>Sample what the incident was</span>
+          <select class="hidden">
+            <option value="construction">Construction</option>
+            <option value="crime scene">Crime Scene</option>
+            <option value="droppings">Droppings</option>
+            <option value="public event">Public Event</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-default">Edit</button>
+        <button type="button" class="btn btn-default">Delete</button>
+        <button type="submit" class="btn btn-default hidden">Submit</button>
       </form>
     </div>
 
