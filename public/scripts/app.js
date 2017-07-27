@@ -1,3 +1,4 @@
+
 function addTwoDays(now){
   var twoDaysMilliseconds = now + 172800000;
   return new Date(twoDaysMilliseconds);
@@ -122,13 +123,25 @@ $(document).ready(function () {
       },
       zoom: 13
     });
-    /*
-    var makeArray = incidents.incidents;
-    makeArray.forEach(function(incident) {
-      renderIncident(incident);
-    });
-    */
-  }
+
+    var myLatLng = {lat: -25.363, lng: 131.044};
+
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: 'Hello World!'
+      });
+
+
+
+
+  } //closes renderMultipleIncidents function
+
+
+
+
+
+
 
   function renderIncident(incident) {
     var indexIncident = (`
