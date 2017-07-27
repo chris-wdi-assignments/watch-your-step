@@ -115,10 +115,19 @@ $(document).ready(function () {
   });
 
   function renderMultipleIncidents(incidents) {
+    const map = new google.maps.Map(document.getElementById('show-data'), {
+      center: {
+        lat: 37.78,
+        lng: -122.44
+      },
+      zoom: 13
+    });
+    /*
     var makeArray = incidents.incidents;
     makeArray.forEach(function(incident) {
       renderIncident(incident);
     });
+    */
   }
 
   function renderIncident(incident) {

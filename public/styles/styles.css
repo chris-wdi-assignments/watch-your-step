@@ -5,3 +5,8 @@
 .edit-elements {
   display: none;
 }
+
+#show-data {
+  height: 800px;
+  width: 800px;
+}
