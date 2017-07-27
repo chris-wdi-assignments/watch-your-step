@@ -130,13 +130,23 @@ $(document).ready(function () {
 
     var myLatLng = {lat: -25.363, lng: 131.044};
 
+    var marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: 'Hello World!'
+    });
+
+
+    // Create Markers
+
+    incidents.incidents.forEach(function(potato) {
+      console.log(potato);
       var marker = new google.maps.Marker({
-        position: myLatLng,
+        position: {lat: potato.latitude, lng: potato.longitude},
         map: map,
         title: 'Hello World!'
       });
-
-
+    });
 
 
   } //closes renderMultipleIncidents function
@@ -150,14 +160,14 @@ $(document).ready(function () {
   function renderIncident(incident) {
     var indexIncident = (`
       <ul class="list-group">
-        <li class="list-group-item">Address: ${incident.address}</li>
-        <li class="list-group-item">Category: ${incident.category}</li>
-        <li class="list-group-item">Date: ${incident.date}</li>
-        <li class="list-group-item">
-          <button class="btn btn-default incident-show-btn" data-incident-id="${incident._id}">View</button>
-        </li>
+      <li class="list-group-item">Address: ${incident.address}</li>
+      <li class="list-group-item">Category: ${incident.category}</li>
+      <li class="list-group-item">Date: ${incident.date}</li>
+      <li class="list-group-item">
+      <button class="btn btn-default incident-show-btn" data-incident-id="${incident._id}">View</button>
+      </li>
       </ul>
-    `)
-    $("#show-data").append(indexIncident); //put at end
-  }
-}); //closes document
+      `)
+      $("#show-data").append(indexIncident); //put at end
+    }
+  }); //closes document

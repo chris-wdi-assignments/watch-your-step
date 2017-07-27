@@ -97,8 +97,8 @@ let incidentList = [
   },
   {
     address: "1639 Polk St, San Francisco, CA 94109",
-    latitude: 37.7863157,
-    longitude: -122.4246912,
+    latitude: 37.7263157,
+    longitude: -122.4846912,
     category: "Droppings",
     date: "July 27, 2017",
     expiration: "July 29, 2017"
