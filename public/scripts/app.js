@@ -101,6 +101,7 @@ $(document).ready(function () {
       console.log("Successfully posted/created");
       $('#create-incident').modal('hide');
       renderIncident(newIncident);
+      $("#new-incident").trigger("reset");
 
 
 
