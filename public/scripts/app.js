@@ -91,7 +91,7 @@ $(document).ready(function () {
   $('#new-incident').on('submit', function(e) {
     e.preventDefault();
 
-    var formData = $(this).serialize();
+    const formData = $(this).serialize();
 
     $.ajax({
       method: 'POST',
