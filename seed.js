@@ -86,10 +86,24 @@ const oneIncident = {
   expiration : "July 26, 2017"
 };
 
-let incidentList = [];
-for (let i = 0; i < 12; i++) {
-  incidentList.push(oneIncident);
-}
+let incidentList = [
+  {
+    address : "868 Geary Blvd, San Francisco, CA 94109",
+    latitude : 37.7863157,
+    longitude : -122.4246912,
+    category : "Other",
+    date : "July 24, 2017",
+    expiration : "July 26, 2017"
+  },
+  {
+    address: "1639 Polk St, San Francisco, CA 94109",
+    latitude: 37.7863157,
+    longitude: -122.4246912,
+    category: "Droppings",
+    date: "July 27, 2017",
+    expiration: "July 29, 2017"
+  }
+];
 
 //funtion to seed database with messages. This will delete all esisting messages before seeding.
 db.Incident.remove({}, function(err, removed){
