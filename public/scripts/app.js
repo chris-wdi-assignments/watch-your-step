@@ -100,6 +100,10 @@ $(document).ready(function () {
     function onCreate(newIncident) {
       console.log("Successfully posted/created");
       $('#create-incident').modal('hide');
+      renderIncident(newIncident);
+
+
+
     } // closes onCreate function
   }) // closes onsubmit handler
 
