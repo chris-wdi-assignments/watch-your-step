@@ -26,6 +26,7 @@ $(document).ready(function () {
     })
   });
 
+  //PUT
   $('#update-form').on('submit', function (e) {
     e.preventDefault();
     const id = $('#update-incident').attr('data-incident-id');
@@ -50,6 +51,7 @@ $(document).ready(function () {
     })
   })
 
+  //DELETE
   $('#incident-delete-btn').on('click', function (e) {
     const id = $('#update-incident').attr('data-incident-id');
 
@@ -67,6 +69,7 @@ $(document).ready(function () {
 
   })
 
+  //GET - SHOW
   $('#show-data').on('click', '.incident-show-btn', function(e) {
     $('.show-elements').show();
     $('.edit-elements').hide();
@@ -85,10 +88,11 @@ $(document).ready(function () {
     $('#update-incident').modal('show');
   })
 
+  // POST
   $('#new-incident').on('submit', function(e) {
     e.preventDefault();
 
-    var formData = $(this).serialize();
+    const formData = $(this).serialize();
 
     $.ajax({
       method: 'POST',

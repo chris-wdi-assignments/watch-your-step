@@ -2,6 +2,7 @@ var db = require("./models");
 
 
 // this will fill the messageList with xx objects that you can turn into models
+/*
 var incidentList = [];
 
     incidentList.push({
@@ -74,20 +75,40 @@ var incidentList = [];
     category : "Other",
     date : "July 24, 2017"
     });
+*/
 
+const oneIncident = {
+  address : "868 Geary Blvd, San Francisco, CA 94109",
+  latitude : 37.7863157,
+  longitude : -122.4246912,
+  category : "Other",
+  date : "July 24, 2017",
+  expiration : "July 26, 2017"
+};
 
-  incidentList.forEach(function(incident){
-    incident.expiration = incident.date;
-  });
-
-
+let incidentList = [
+  {
+    address : "868 Geary Blvd, San Francisco, CA 94109",
+    latitude : 37.7863157,
+    longitude : -122.4246912,
+    category : "Other",
+    date : "July 24, 2017",
+    expiration : "July 26, 2017"
+  },
+  {
+    address: "1639 Polk St, San Francisco, CA 94109",
+    latitude: 37.7863157,
+    longitude: -122.4246912,
+    category: "Droppings",
+    date: "July 27, 2017",
+    expiration: "July 29, 2017"
+  }
+];
 
 //funtion to seed database with messages. This will delete all esisting messages before seeding.
 db.Incident.remove({}, function(err, removed){
-
   db.Incident.create(incidentList, function(err, created){
     if (err) { console.log('ERROR' + err); }
     process.exit();
   });
-
 });

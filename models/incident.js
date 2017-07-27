@@ -6,6 +6,8 @@ const IncidentSchema = new Schema({
   address: String,
   category: String,
   date: Date,
+  latitude: Number,
+  longitude: Number,
   //neighborhood: Neighborhood,
   expiration: Date
 });
