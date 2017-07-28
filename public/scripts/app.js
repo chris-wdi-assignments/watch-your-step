@@ -4,11 +4,26 @@ function addTwoDays(now){
 }
 
 function getCoordinates(address, callback) {
+  // because of .call(), `this` will be modal
+  const currentForm = this;
   const parameters = "address=" + address;
   $.ajax({
     method: "GET",
     url: "https://maps.googleapis.com/maps/api/geocode/json?" + parameters,
-    success: callback,
+    success: function (geocoderResults) {
+      const results = geocoderResults.results;
+      if (geocoderResults.status === 'ZERO_RESULTS' || results.length === 0) {
+        $(currentForm).prepend(`
+          <div class="alert alert-danger alert-dismissible fade in">
+            <button type="button" class="close" data-dismiss="alert">
+              <span>&times;</span>
+            </button>
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            Address not found.
+          </div>
+        `);
+      } else callback(geocoderResults);
+    },
     error: (err) => {
       throw new Error(err)
     }
@@ -97,12 +112,14 @@ $(document).ready(function () {
     e.preventDefault();
 
     let address = $('#new-address').val();
-    getCoordinates(address, function (geocoderRes) {
+    getCoordinates.call(document.getElementById('new-incident'), address, function (geocoderRes) {
+      // the .call() will bind the function to the form, so we can draw alert
+      const results = geocoderRes.results;
       let formData = {
-        address: geocoderRes.results[0].formatted_address,
+        address: results[0].formatted_address,
         category: $('#new-category').val(),
-        latitude: geocoderRes.results[0].geometry.location.lat,
-        longitude: geocoderRes.results[0].geometry.location.lng
+        latitude: results[0].geometry.location.lat,
+        longitude: results[0].geometry.location.lng
       };
 
       $.ajax({
@@ -110,11 +127,11 @@ $(document).ready(function () {
         url: '/api/incidents',
         data: formData,
         success: function (newIncident) {
-          $('#create-incident').modal('hide');
           renderIncident(newIncident);
           const index = markers.length - 1;
           const createdMarker = markers[index];
           addClickHandlerToMarker(createdMarker, index);
+          $('#create-incident').modal('hide');
           $("#new-incident").trigger("reset");
         }
       });
