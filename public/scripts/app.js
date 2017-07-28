@@ -85,7 +85,6 @@ $(document).ready(function () {
         console.log('There was an error!', 'err');
       }
     })
-
   })
 
   //GET - SHOW
