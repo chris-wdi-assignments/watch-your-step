@@ -87,25 +87,6 @@ $(document).ready(function () {
     })
   })
 
-  //GET - SHOW
-  $('#show-data').on('click', '.incident-show-btn', function(e) {
-    $('.show-elements').show();
-    $('.edit-elements').hide();
-    const id = $(e.target).attr('data-incident-id');
-    $('#update-incident').attr('data-incident-id', id);
-    $.ajax({
-      method: 'GET',
-      url: '/api/incidents/' + id,
-      success: function (incident) {
-        $('.show-address').text(incident.address);
-        $('.show-category').text(incident.category);
-        $('.show-date').text(incident.date);
-      },
-      error: function (err) {throw new Error(err);}
-    })
-    $('#update-incident').modal('show');
-  })
-
   // POST
   $('#new-incident').on('submit', function(e) {
     e.preventDefault();
@@ -136,7 +117,31 @@ $(document).ready(function () {
   $.ajax({
     method: 'GET',
     url: '/api/incidents',
-    success: renderMultipleIncidents
+    success: function (incidents) {
+      renderMultipleIncidents(incidents);
+      //GET - SHOW
+      //$('#show-data').on('click', '.incident-show-btn', function(e) {
+      markers.forEach(function (marker) {
+        google.maps.event.addListener(marker, 'click', function (e) {
+          $('.show-elements').show();
+          $('.edit-elements').hide();
+          console.log('marker.title', marker.title);
+          const id = marker.title;
+          $('#update-incident').attr('data-incident-id', id);
+          $.ajax({
+            method: 'GET',
+            url: '/api/incidents/' + id,
+            success: function (incident) {
+              $('.show-address').text(incident.address);
+              $('.show-category').text(incident.category);
+              $('.show-date').text(incident.date);
+            },
+            error: function (err) {throw new Error(err);}
+          })
+          $('#update-incident').modal('show');
+        })
+      })
+    }
   });
 
   function renderMultipleIncidents(incidents) {
@@ -150,7 +155,7 @@ $(document).ready(function () {
     markers.push(new google.maps.Marker({
       position: {lat: incident.latitude, lng: incident.longitude},
       map: map,
-      title: 'Hello World!'
+      title: incident._id
     }));
   }
 }); //closes document
