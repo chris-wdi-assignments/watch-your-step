@@ -113,14 +113,13 @@ $(document).ready(function () {
     });
   }) // closes onsubmit handler
 
+  //GET - INDEX
   let markers = [];
   $.ajax({
     method: 'GET',
     url: '/api/incidents',
     success: function (incidents) {
       renderMultipleIncidents(incidents);
-      //GET - SHOW
-      //$('#show-data').on('click', '.incident-show-btn', function(e) {
       markers.forEach(function (marker) {
         google.maps.event.addListener(marker, 'click', function (e) {
           $('.show-elements').show();
@@ -129,7 +128,7 @@ $(document).ready(function () {
           $('#update-incident').attr('data-incident-id', id);
           $.ajax({
             method: 'GET',
-            url: '/api/incidents/' + id,
+            url: `/api/incidents/${id}`,
             success: function (incident) {
               $('.show-address').text(incident.address);
               $('.show-category').text(incident.category);
