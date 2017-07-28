@@ -128,7 +128,7 @@ $(document).ready(function () {
           $('#update-incident').attr('data-incident-id', id);
           $.ajax({
             method: 'GET',
-            url: '/api/incidents/' + id,
+            url: `/api/incidents/${id}`,
             success: function (incident) {
               $('.show-address').text(incident.address);
               $('.show-category').text(incident.category);
