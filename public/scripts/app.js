@@ -78,7 +78,9 @@ $(document).ready(function () {
       url: "/api/incidents/" + id,
       success: function () {
         $('#update-incident').modal('hide');
-        $(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
+        const marker_id = $('#update-incident').attr('data-marker-index');
+        markers[marker_id].setMap(null);  // remove pin off the map
+        //$(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
       },
       error: function (err) {
         console.log('There was an error!', 'err');
@@ -106,6 +108,9 @@ $(document).ready(function () {
         success: function (newIncident) {
           $('#create-incident').modal('hide');
           renderIncident(newIncident);
+          const index = markers.length - 1;
+          const createdMarker = markers[index];
+          addClickHandlerToMarker(createdMarker, index);
           $("#new-incident").trigger("reset");
         }
       });
@@ -119,27 +124,31 @@ $(document).ready(function () {
     url: '/api/incidents',
     success: function (incidents) {
       renderMultipleIncidents(incidents);
-      markers.forEach(function (marker) {
-        google.maps.event.addListener(marker, 'click', function (e) {
-          $('.show-elements').show();
-          $('.edit-elements').hide();
-          const id = marker.title;
-          $('#update-incident').attr('data-incident-id', id);
-          $.ajax({
-            method: 'GET',
-            url: `/api/incidents/${id}`,
-            success: function (incident) {
-              $('.show-address').text(incident.address);
-              $('.show-category').text(incident.category);
-              $('.show-date').text(incident.date);
-            },
-            error: function (err) {throw new Error(err);}
-          })
-          $('#update-incident').modal('show');
-        })
+      markers.forEach(function (marker, index) {
+        addClickHandlerToMarker(marker, index);
       })
     }
   });
+
+  function addClickHandlerToMarker(marker, index) {
+    google.maps.event.addListener(marker, 'click', function (e) {
+      $('.show-elements').show();
+      $('.edit-elements').hide();
+      const id = marker.title;
+      $('#update-incident').attr('data-incident-id', id).attr('data-marker-index', index);
+      $.ajax({
+        method: 'GET',
+        url: `/api/incidents/${id}`,
+        success: function (incident) {
+          $('.show-address').text(incident.address);
+          $('.show-category').text(incident.category);
+          $('.show-date').text(incident.date);
+        },
+        error: function (err) {throw new Error(err);}
+      })
+      $('#update-incident').modal('show');
+    })
+  }
 
   function renderMultipleIncidents(incidents) {
     // Create Markers
