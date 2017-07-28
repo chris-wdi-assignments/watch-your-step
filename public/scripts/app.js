@@ -30,8 +30,10 @@ $(document).ready(function () {
     $('#create-incident').modal('show');
   });
 
+  // trigger edit
   $('#incident-edit-btn').on('click', function (e) {
     const id = $('#update-incident').attr('data-incident-id');
+    // update data from db
     $.ajax({
       method: "GET",
       url: `/api/incidents/${id}`,
@@ -43,7 +45,7 @@ $(document).ready(function () {
         $('.show-elements').hide();
         $('.edit-elements').show();
       }
-    })
+    });
   });
 
   //PUT
