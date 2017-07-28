@@ -114,7 +114,6 @@ $(document).ready(function () {
 
     let address = $('#new-address').val();
     getCoordinates(address, function (geocoderRes) {
-      geocoderRes.results[0].geometry.location.lng);
       let formData = {
         address: geocoderRes.results[0].formatted_address,
         category: $('#new-category').val(),
