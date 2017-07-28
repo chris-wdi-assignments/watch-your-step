@@ -108,6 +108,9 @@ $(document).ready(function () {
         success: function (newIncident) {
           $('#create-incident').modal('hide');
           renderIncident(newIncident);
+          const index = markers.length - 1;
+          const createdMarker = markers[index];
+          addClickHandlerToMarker(createdMarker, index);
           $("#new-incident").trigger("reset");
         }
       });
@@ -122,26 +125,30 @@ $(document).ready(function () {
     success: function (incidents) {
       renderMultipleIncidents(incidents);
       markers.forEach(function (marker, index) {
-        google.maps.event.addListener(marker, 'click', function (e) {
-          $('.show-elements').show();
-          $('.edit-elements').hide();
-          const id = marker.title;
-          $('#update-incident').attr('data-incident-id', id).attr('data-marker-index', index);
-          $.ajax({
-            method: 'GET',
-            url: `/api/incidents/${id}`,
-            success: function (incident) {
-              $('.show-address').text(incident.address);
-              $('.show-category').text(incident.category);
-              $('.show-date').text(incident.date);
-            },
-            error: function (err) {throw new Error(err);}
-          })
-          $('#update-incident').modal('show');
-        })
+        addClickHandlerToMarker(marker, index);
       })
     }
   });
+
+  function addClickHandlerToMarker(marker, index) {
+    google.maps.event.addListener(marker, 'click', function (e) {
+      $('.show-elements').show();
+      $('.edit-elements').hide();
+      const id = marker.title;
+      $('#update-incident').attr('data-incident-id', id).attr('data-marker-index', index);
+      $.ajax({
+        method: 'GET',
+        url: `/api/incidents/${id}`,
+        success: function (incident) {
+          $('.show-address').text(incident.address);
+          $('.show-category').text(incident.category);
+          $('.show-date').text(incident.date);
+        },
+        error: function (err) {throw new Error(err);}
+      })
+      $('#update-incident').modal('show');
+    })
+  }
 
   function renderMultipleIncidents(incidents) {
     // Create Markers
