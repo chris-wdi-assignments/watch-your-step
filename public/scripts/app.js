@@ -30,6 +30,11 @@ function getCoordinates(address, callback) {
   })
 }
 
+let currentPosition = {
+  lat: 0,
+  lng: 0
+};
+
 $(document).ready(function () {
 
   // render map on DOM
@@ -43,10 +48,11 @@ $(document).ready(function () {
 
   // center map each time position changes
   const watchPositionId = navigator.geolocation.watchPosition(function (position) {
-    map.setCenter({
+    currentPosition = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
-    });
+    };
+    map.setCenter(currentPosition);
   })
 
   $('#new-button').on('click', function (e) {
