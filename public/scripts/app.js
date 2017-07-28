@@ -1,10 +1,30 @@
-
 function addTwoDays(now){
   var twoDaysMilliseconds = now + 172800000;
   return new Date(twoDaysMilliseconds);
 }
 
+function getCoordinates(address, callback) {
+  const parameters = "address=" + address;
+  $.ajax({
+    method: "GET",
+    url: "https://maps.googleapis.com/maps/api/geocode/json?" + parameters,
+    success: callback,
+    error: (err) => {
+      throw new Error(err)
+    }
+  })
+}
+
 $(document).ready(function () {
+
+  // render map on DOM
+  const map = new google.maps.Map(document.getElementById('show-data'), {
+    center: {
+      lat: 37.783,
+      lng: -122.42
+    },
+    zoom: 16
+  });
 
   $('#new-button').on('click', function (e) {
     $('#create-incident').modal('show');
@@ -36,7 +56,6 @@ $(document).ready(function () {
       date: new Date(),
       expiration: addTwoDays(Date.now())
     };
-    console.log(data);
     $.ajax({
       method: "put",
       url: `/api/incidents/${id}`,
@@ -48,8 +67,8 @@ $(document).ready(function () {
         $('.show-elements').show();
         $('.edit-elements').hide();
       }
-    })
-  })
+    });
+  });
 
   //DELETE
   $('#incident-delete-btn').on('click', function (e) {
@@ -66,108 +85,76 @@ $(document).ready(function () {
         console.log('There was an error!', 'err');
       }
     })
-
-  })
-
-  //GET - SHOW
-  $('#show-data').on('click', '.incident-show-btn', function(e) {
-    $('.show-elements').show();
-    $('.edit-elements').hide();
-    const id = $(e.target).attr('data-incident-id');
-    $('#update-incident').attr('data-incident-id', id);
-    $.ajax({
-      method: 'GET',
-      url: '/api/incidents/' + id,
-      success: function (incident) {
-        $('.show-address').text(incident.address);
-        $('.show-category').text(incident.category);
-        $('.show-date').text(incident.date);
-      },
-      error: function (err) {throw new Error(err);}
-    })
-    $('#update-incident').modal('show');
   })
 
   // POST
   $('#new-incident').on('submit', function(e) {
     e.preventDefault();
 
-    const formData = $(this).serialize();
+    let address = $('#new-address').val();
+    getCoordinates(address, function (geocoderRes) {
+      let formData = {
+        address: geocoderRes.results[0].formatted_address,
+        category: $('#new-category').val(),
+        latitude: geocoderRes.results[0].geometry.location.lat,
+        longitude: geocoderRes.results[0].geometry.location.lng
+      };
 
-    $.ajax({
-      method: 'POST',
-      url: '/api/incidents',
-      data: formData,
-      success: onCreate
-      // this will create new incident in database
-    })
-
-    function onCreate(newIncident) {
-      console.log("Successfully posted/created");
-      $('#create-incident').modal('hide');
-      renderIncident(newIncident);
-      $("#new-incident").trigger("reset");
-
-
-
-    } // closes onCreate function
+      $.ajax({
+        method: 'POST',
+        url: '/api/incidents',
+        data: formData,
+        success: function (newIncident) {
+          $('#create-incident').modal('hide');
+          renderIncident(newIncident);
+          $("#new-incident").trigger("reset");
+        }
+      });
+    });
   }) // closes onsubmit handler
 
+  let markers = [];
   $.ajax({
     method: 'GET',
     url: '/api/incidents',
-    success: renderMultipleIncidents
+    success: function (incidents) {
+      renderMultipleIncidents(incidents);
+      //GET - SHOW
+      //$('#show-data').on('click', '.incident-show-btn', function(e) {
+      markers.forEach(function (marker) {
+        google.maps.event.addListener(marker, 'click', function (e) {
+          $('.show-elements').show();
+          $('.edit-elements').hide();
+          const id = marker.title;
+          $('#update-incident').attr('data-incident-id', id);
+          $.ajax({
+            method: 'GET',
+            url: '/api/incidents/' + id,
+            success: function (incident) {
+              $('.show-address').text(incident.address);
+              $('.show-category').text(incident.category);
+              $('.show-date').text(incident.date);
+            },
+            error: function (err) {throw new Error(err);}
+          })
+          $('#update-incident').modal('show');
+        })
+      })
+    }
   });
 
   function renderMultipleIncidents(incidents) {
-    const map = new google.maps.Map(document.getElementById('show-data'), {
-      center: {
-        lat: 37.78,
-        lng: -122.44
-      },
-      zoom: 13
-    });
-
-    var myLatLng = {lat: -25.363, lng: 131.044};
-
-    var marker = new google.maps.Marker({
-      position: myLatLng,
-      map: map,
-      title: 'Hello World!'
-    });
-
-
     // Create Markers
-
     incidents.incidents.forEach(function(potato) {
-      console.log(potato);
-      var marker = new google.maps.Marker({
-        position: {lat: potato.latitude, lng: potato.longitude},
-        map: map,
-        title: 'Hello World!'
-      });
+      renderIncident(potato);
     });
-
-
   } //closes renderMultipleIncidents function
 
-
-
-
-
-
-
   function renderIncident(incident) {
-    var indexIncident = (`
-      <ul class="list-group">
-      <li class="list-group-item">Address: ${incident.address}</li>
-      <li class="list-group-item">Category: ${incident.category}</li>
-      <li class="list-group-item">Date: ${incident.date}</li>
-      <li class="list-group-item">
-      <button class="btn btn-default incident-show-btn" data-incident-id="${incident._id}">View</button>
-      </li>
-      </ul>
-      `)
-      $("#show-data").append(indexIncident); //put at end
-    }
-  }); //closes document
+    markers.push(new google.maps.Marker({
+      position: {lat: incident.latitude, lng: incident.longitude},
+      map: map,
+      title: incident._id
+    }));
+  }
+}); //closes document
