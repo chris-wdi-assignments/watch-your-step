@@ -10,3 +10,13 @@
   height: 550px;
   width: 100%;
 }
+
+#new-button {
+  position: fixed;
+  left: 2em;
+  bottom: 2em;
+  height: 2em;
+  width: 2em;
+  border-radius: 1em;
+  font-size: 2em;
+}
