@@ -62,7 +62,6 @@ $(document).ready(function () {
       data: data,
       success: function (incident) {
         $(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
-        renderIncident(incident);
         $('#update-incident').modal('hide');
         $('.show-elements').show();
         $('.edit-elements').hide();
