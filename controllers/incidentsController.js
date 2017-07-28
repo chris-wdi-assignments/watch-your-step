@@ -32,6 +32,8 @@ const create = function (req, res) {
     address: req.body.address,
     category: req.body.category,
     date: new Date(),
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
     expiration: addTwoDays(Date.now())
   }, function(err, newIncident){
     if (err) {
