@@ -53,8 +53,10 @@ $(document).ready(function () {
     e.preventDefault();
     const id = $('#update-incident').attr('data-incident-id');
     const data = {
+      // read data from form
       address: $('#edit-address').val(),
       category: $('#edit-category').val().toLowerCase(),
+      // auto set date & expiration
       date: new Date(),
       expiration: addTwoDays(Date.now())
     };
@@ -73,6 +75,7 @@ $(document).ready(function () {
 
   //DELETE
   $('#incident-delete-btn').on('click', function (e) {
+    // we embedded this data when the pin was first clicked
     const id = $('#update-incident').attr('data-incident-id');
 
     $.ajax({
@@ -82,7 +85,6 @@ $(document).ready(function () {
         $('#update-incident').modal('hide');
         const marker_id = $('#update-incident').attr('data-marker-index');
         markers[marker_id].setMap(null);  // remove pin off the map
-        //$(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
       },
       error: function (err) {
         console.log('There was an error!', 'err');
