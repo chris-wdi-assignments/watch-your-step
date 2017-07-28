@@ -56,7 +56,6 @@ $(document).ready(function () {
       date: new Date(),
       expiration: addTwoDays(Date.now())
     };
-    console.log(data);
     $.ajax({
       method: "put",
       url: `/api/incidents/${id}`,
