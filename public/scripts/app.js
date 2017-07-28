@@ -67,8 +67,8 @@ $(document).ready(function () {
         $('.show-elements').show();
         $('.edit-elements').hide();
       }
-    })
-  })
+    });
+  });
 
   //DELETE
   $('#incident-delete-btn').on('click', function (e) {
