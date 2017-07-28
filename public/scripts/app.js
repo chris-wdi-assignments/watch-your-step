@@ -63,8 +63,8 @@ $(document).ready(function () {
       url: `/api/incidents/${id}`,
       data: data,
       success: function (incident) {
-        $(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
         $('#update-incident').modal('hide');
+        // flip modal to initial state
         $('.show-elements').show();
         $('.edit-elements').hide();
       }
