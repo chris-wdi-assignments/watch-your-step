@@ -1,5 +1,36 @@
-.panel {
-  border-color: red;
+.navbar {
+  background-color: #4285f4;
+  height: 100px;
+  cursor: pointer;
+  position: fixed;
+  text-align: center;
+  padding-top: 25px;
+  z-index: 10;
+  width: 100%;
+}
+
+.navbar-nav {
+  font-size: 25px;
+  text-align: right;
+  postion: fixed:
+  top: 0;
+  right: 0;
+}
+
+.logo {
+  width: 40px;
+  height: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+h2 {
+  font-size: 25px;
+  font-family: Raleway, sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+  display: inline;
+  vertical-align: middle;
 }
 
 .edit-elements {
