@@ -78,7 +78,9 @@ $(document).ready(function () {
       url: "/api/incidents/" + id,
       success: function () {
         $('#update-incident').modal('hide');
-        $(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
+        const marker_id = $('#update-incident').attr('data-marker-index');
+        markers[marker_id].setMap(null);  // remove pin off the map
+        //$(`.incident-show-btn[data-incident-id="${id}"]`).closest('.list-group').remove();
       },
       error: function (err) {
         console.log('There was an error!', 'err');
@@ -119,12 +121,12 @@ $(document).ready(function () {
     url: '/api/incidents',
     success: function (incidents) {
       renderMultipleIncidents(incidents);
-      markers.forEach(function (marker) {
+      markers.forEach(function (marker, index) {
         google.maps.event.addListener(marker, 'click', function (e) {
           $('.show-elements').show();
           $('.edit-elements').hide();
           const id = marker.title;
-          $('#update-incident').attr('data-incident-id', id);
+          $('#update-incident').attr('data-incident-id', id).attr('data-marker-index', index);
           $.ajax({
             method: 'GET',
             url: `/api/incidents/${id}`,
