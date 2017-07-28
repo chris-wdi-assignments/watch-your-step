@@ -41,6 +41,14 @@ $(document).ready(function () {
     zoom: 16
   });
 
+  // center map each time position changes
+  const watchPositionId = navigator.geolocation.watchPosition(function (position) {
+    map.setCenter({
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    });
+  })
+
   $('#new-button').on('click', function (e) {
     $('#create-incident').modal('show');
   });
