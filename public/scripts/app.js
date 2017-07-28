@@ -125,7 +125,6 @@ $(document).ready(function () {
         google.maps.event.addListener(marker, 'click', function (e) {
           $('.show-elements').show();
           $('.edit-elements').hide();
-          console.log('marker.title', marker.title);
           const id = marker.title;
           $('#update-incident').attr('data-incident-id', id);
           $.ajax({
