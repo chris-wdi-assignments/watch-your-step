@@ -114,6 +114,7 @@ $(document).ready(function () {
         $('#update-incident').modal('hide');
         const marker_id = $('#update-incident').attr('data-marker-index');
         markers[marker_id].setMap(null);  // remove pin off the map
+        delete markers[marker_id];  // free up memory
       },
       error: function (err) {
         console.log('There was an error!', 'err');
