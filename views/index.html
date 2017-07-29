@@ -19,105 +19,106 @@
 </head>
 
 <body>
+  <div class="centering-logo">
+    <img class="logo" src="images/watchyourstepLogo.png" alt="logo">
+    <h2>Watch Your Step</h2>
+  </div>
 
   <!--    Nav Bar    -->
-
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-      <img class="logo" src="images/watchyourstepLogo.png" alt="logo">
-      <h2>Watch Your Step</h2>
       <div class="navbar-header">
         <a class="navbar-brand" href="#">
         </a>
-
       </div>
-
-  </nav>
-
-  <div class="container">
-    <div class="row">
+    </nav>
 
 
-      <div class="panel panel-default">
-        <div class="panel-body" id="show-data">
-          Map will go here
+
+    <div class="container">
+      <div class="row">
+        <div class="panel panel-default">
+          <div class="panel-body" id="show-data">
+            Map will go here
+          </div>
         </div>
-      </div>
 
-    <button class="btn btn-default" id="new-button">+</button>
+        <button class="btn btn-default" id="new-button">
+          <p>+</p>
+        </button>
 
-      <div class="modal fade" id="create-incident">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4>Report New Incident</h4>
-            </div>
-            <div class="modal-body">
-              <form id="new-incident">
-                <div class="form-group">
-                  <label>Address</label>
-                  <input type="text" class="form-control" name="address" id="new-address">
-                </div>
-                <div class="form-group">
-                  <label>Incident</label>
-                  <select name="category" id="new-category">
-                    <option value="construction">Construction</option>
-                    <option value="crime scene">Crime Scene</option>
-                    <option value="droppings">Droppings</option>
-                    <option value="public event">Public Event</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <input type="submit" class="btn btn-default" value="Create"></input>
-              </form>
+        <div class="modal fade" id="create-incident">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4>Report New Incident</h4>
+              </div>
+              <div class="modal-body">
+                <form id="new-incident">
+                  <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" class="form-control" name="address" id="new-address">
+                  </div>
+                  <div class="form-group">
+                    <label>Incident</label>
+                    <select name="category" id="new-category">
+                      <option value="construction">Construction</option>
+                      <option value="crime scene">Crime Scene</option>
+                      <option value="droppings">Droppings</option>
+                      <option value="public event">Public Event</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <input type="submit" class="btn btn-default" value="Create"></input>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="modal fade" id="update-incident">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <h4>View Incident</h4>
-            </div>
-            <div class="modal-body">
-              <form id="update-form">
-                <div class="form-group">
-                  <label>Address</label>
-                  <span class="show-elements show-address" id="show-address">Sample address text</span>
-                  <input type="text" id="edit-address" class="edit-elements form-control" name="address">
-                </div>
-                <div class="form-group">
-                  <label>Incident</label>
-                  <span class="show-category show-elements" id="show-category">Sample what the incident was</span>
-                  <select class="edit-elements" id="edit-category" name="category">
-                    <option value="construction">Construction</option>
-                    <option value="crime scene">Crime Scene</option>
-                    <option value="droppings">Droppings</option>
-                    <option value="public event">Public Event</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label>Date</label>
-                  <span class="show-date">7/26/17</span>
-                </div>
-                <button type="button" class="show-elements btn btn-default" id="incident-edit-btn">Edit</button>
-                <button type="button" class="show-elements btn btn-default" id="incident-delete-btn">Delete</button>
-                <button type="submit" class="edit-elements btn btn-default">Submit</button>
-              </form>
+        <div class="modal fade" id="update-incident">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4>View Incident</h4>
+              </div>
+              <div class="modal-body">
+                <form id="update-form">
+                  <div class="form-group">
+                    <label>Address</label>
+                    <span class="show-elements show-address" id="show-address">Sample address text</span>
+                    <input type="text" id="edit-address" class="edit-elements form-control" name="address">
+                  </div>
+                  <div class="form-group">
+                    <label>Incident</label>
+                    <span class="show-category show-elements" id="show-category">Sample what the incident was</span>
+                    <select class="edit-elements" id="edit-category" name="category">
+                      <option value="construction">Construction</option>
+                      <option value="crime scene">Crime Scene</option>
+                      <option value="droppings">Droppings</option>
+                      <option value="public event">Public Event</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Date</label>
+                    <span class="show-date">7/26/17</span>
+                  </div>
+                  <button type="button" class="show-elements btn btn-default" id="incident-edit-btn">Edit</button>
+                  <button type="button" class="show-elements btn btn-default" id="incident-delete-btn">Delete</button>
+                  <button type="submit" class="edit-elements btn btn-default">Submit</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- closes container -->
+    <!-- closes container -->
 
-</body>
+  </body>
 
-</html>
+  </html>
