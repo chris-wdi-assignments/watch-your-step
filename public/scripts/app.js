@@ -4,7 +4,7 @@ function addTwoDays(now){
 }
 
 function getCoordinates(address, callback) {
-  // because of .call(), `this` will be modal
+  // because of .call(), `this` will be the form
   const currentForm = this;
   const parameters = "address=" + address;
   $.ajax({
@@ -30,6 +30,19 @@ function getCoordinates(address, callback) {
   })
 }
 
+const getAddress = function (lat, lng) {
+  // because of .call(), `this` will be the form
+  const currentForm = this;
+  const parameters = `latlng=${lat},${lng}`;
+  $.ajax({
+    method: "GET",
+    url: "https://maps.googleapis.com/maps/api/geocode/json?" + parameters,
+    success: function (geocoderResults) {
+      $('#new-address').val(geocoderResults.results[0].formatted_address);
+    }
+  });
+};
+
 let currentPosition = {
   lat: 0,
   lng: 0
@@ -46,6 +59,9 @@ $(document).ready(function () {
     zoom: 16
   });
 
+  $('#use-current-btn').on('click', function (e) {
+    getAddress(currentPosition.lat, currentPosition.lng);
+  })
   // center map each time position changes
   const watchPositionId = navigator.geolocation.watchPosition(function (position) {
     currentPosition = {
