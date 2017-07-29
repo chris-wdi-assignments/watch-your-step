@@ -182,6 +182,7 @@ $(document).ready(function () {
     }
   });
 
+  // SHOW
   function addClickHandlerToMarker(marker, index) {
     google.maps.event.addListener(marker, 'click', function (e) {
       $('.show-elements').show();
@@ -192,9 +193,10 @@ $(document).ready(function () {
         method: 'GET',
         url: `/api/incidents/${id}`,
         success: function (incident) {
+          const date = incident.date.toString();
           $('.show-address').text(incident.address);
           $('.show-category').text(incident.category);
-          $('.show-date').text(incident.date);
+          $('.show-date').text(new Date(date).toLocaleString());
         },
         error: function (err) {throw new Error(err);}
       })

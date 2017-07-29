@@ -21,8 +21,7 @@ const show = function (req, res) {
 }
 
 function addTwoDays(now){
-  var twoDaysMilliseconds = now + 172800000;
-  return new Date(twoDaysMilliseconds);
+  return twoDaysMilliseconds = now + 172800000;
 }
 
 // POST /api/incidents
@@ -31,7 +30,7 @@ const create = function (req, res) {
   db.Incident.create({
     address: req.body.address,
     category: req.body.category,
-    date: new Date(),
+    date: Date.now(),
     latitude: req.body.latitude,
     longitude: req.body.longitude,
     expiration: addTwoDays(Date.now())
@@ -49,7 +48,7 @@ const update = function (req, res) {
     if(err) return res.send(err);
     foundIncident.address = req.body.address;
     foundIncident.category = req.body.category;
-    foundIncident.date = new Date();
+    foundIncident.date = Date.now();
     foundIncident.expiration = addTwoDays(Date.now());
     foundIncident.save(function(err, savedIncident){
       if(err) return res.send(err);
