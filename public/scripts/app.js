@@ -31,7 +31,6 @@ function getCoordinates(address, callback) {
 }
 
 const getAddress = function (lat, lng) {
-  // because of .call(), `this` will be the form
   const currentForm = this;
   const parameters = `latlng=${lat},${lng}`;
   $.ajax({
