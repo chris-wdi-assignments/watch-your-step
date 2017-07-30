@@ -47,16 +47,22 @@ let currentPosition = {
   lat: 0,
   lng: 0
 };
+let mapElId = 'show-data'
 
 $(document).ready(function () {
 
   // render map on DOM
-  const map = new google.maps.Map(document.getElementById('show-data'), {
+  const map = new google.maps.Map(document.getElementById(mapElId), {
     center: {
       lat: 37.783,
       lng: -122.42
     },
     zoom: 16
+  });
+
+  google.maps.event.addListener(map, 'tilesloaded', function(){
+    // $('#' + mapElId).css('position', 'absolute');
+    document.getElementById(mapElId).style.position = 'absolute';
   });
 
   $('#use-current-btn').on('click', function (e) {
