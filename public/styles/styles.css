@@ -35,8 +35,7 @@ h2 {
 }
 
 #show-data {
-  height: 550px;
-  width: 100%;
+  position: absolute;
 }
 
 #new-button {
