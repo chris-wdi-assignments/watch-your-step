@@ -4,7 +4,7 @@ function addTwoDays(now){
 }
 
 function getCoordinates(address, callback) {
-  // because of .call(), `this` will be modal
+  // because of .call(), `this` will be the form
   const currentForm = this;
   const parameters = "address=" + address;
   $.ajax({
@@ -30,6 +30,24 @@ function getCoordinates(address, callback) {
   })
 }
 
+const getAddress = function (lat, lng) {
+  // because of .call(), `this` will be the form
+  const currentForm = this;
+  const parameters = `latlng=${lat},${lng}`;
+  $.ajax({
+    method: "GET",
+    url: "https://maps.googleapis.com/maps/api/geocode/json?" + parameters,
+    success: function (geocoderResults) {
+      $('#new-address').val(geocoderResults.results[0].formatted_address);
+    }
+  });
+};
+
+let currentPosition = {
+  lat: 0,
+  lng: 0
+};
+
 $(document).ready(function () {
 
   // render map on DOM
@@ -41,12 +59,16 @@ $(document).ready(function () {
     zoom: 16
   });
 
+  $('#use-current-btn').on('click', function (e) {
+    getAddress(currentPosition.lat, currentPosition.lng);
+  })
   // center map each time position changes
   const watchPositionId = navigator.geolocation.watchPosition(function (position) {
-    map.setCenter({
+    currentPosition = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
-    });
+    };
+    map.setCenter(currentPosition);
   })
 
   $('#new-button').on('click', function (e) {
@@ -108,6 +130,7 @@ $(document).ready(function () {
         $('#update-incident').modal('hide');
         const marker_id = $('#update-incident').attr('data-marker-index');
         markers[marker_id].setMap(null);  // remove pin off the map
+        delete markers[marker_id];  // free up memory
       },
       error: function (err) {
         console.log('There was an error!', 'err');
@@ -159,6 +182,7 @@ $(document).ready(function () {
     }
   });
 
+  // SHOW
   function addClickHandlerToMarker(marker, index) {
     google.maps.event.addListener(marker, 'click', function (e) {
       $('.show-elements').show();
@@ -169,9 +193,10 @@ $(document).ready(function () {
         method: 'GET',
         url: `/api/incidents/${id}`,
         success: function (incident) {
+          const date = incident.date.toString();
           $('.show-address').text(incident.address);
           $('.show-category').text(incident.category);
-          $('.show-date').text(incident.date);
+          $('.show-date').text(new Date(date).toLocaleString());
         },
         error: function (err) {throw new Error(err);}
       })
