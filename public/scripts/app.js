@@ -60,11 +60,6 @@ $(document).ready(function () {
     zoom: 16
   });
 
-  google.maps.event.addListener(map, 'tilesloaded', function(){
-    // $('#' + mapElId).css('position', 'absolute');
-    document.getElementById(mapElId).style.position = 'absolute';
-  });
-
   $('#use-current-btn').on('click', function (e) {
     getAddress(currentPosition.lat, currentPosition.lng);
   })
