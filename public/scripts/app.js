@@ -63,7 +63,7 @@ $(document).ready(function () {
     getAddress(currentPosition.lat, currentPosition.lng);
   })
   // center map each time position changes
-  const watchPositionId = navigator.geolocation.watchPosition(function (position) {
+  navigator.geolocation.getCurrentPosition(function (position) {
     currentPosition = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
@@ -146,11 +146,13 @@ $(document).ready(function () {
     getCoordinates.call(document.getElementById('new-incident'), address, function (geocoderRes) {
       // the .call() will bind the function to the form, so we can draw alert
       const results = geocoderRes.results;
+      const lat = results[0].geometry.location.lat;
+      const lng = results[0].geometry.location.lng;
       let formData = {
         address: results[0].formatted_address,
         category: $('#new-category').val(),
-        latitude: results[0].geometry.location.lat,
-        longitude: results[0].geometry.location.lng
+        latitude: lat,
+        longitude: lng
       };
 
       $.ajax({
@@ -159,6 +161,7 @@ $(document).ready(function () {
         data: formData,
         success: function (newIncident) {
           renderIncident(newIncident);
+          map.setCenter({ lat: lat, lng: lng });  // center on newly created incident
           const index = markers.length - 1;
           const createdMarker = markers[index];
           addClickHandlerToMarker(createdMarker, index);
